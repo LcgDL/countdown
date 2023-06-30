@@ -1,4 +1,4 @@
--- Countdown Solution
+-- Countdown Game -  Solution
 
 data Op = Add | Sub | Mul | Div
 
