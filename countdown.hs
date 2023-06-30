@@ -100,5 +100,6 @@ combine' (l,x) (r,y) = [(App o l r, apply o x y) | o <- ops, valid o x y]
 solutions' :: [Int] -> Int -> [Expr]
 solutions' ns n = [e|ns' <- choices ns, (e, m) <- results ns', m == n]
 
+-- IO: the program definition interacts with the external world via inputs and outputs
 main :: IO ()
 main = print (solutions' [1, 3, 7, 10, 25, 50] 765)
