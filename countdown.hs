@@ -1,7 +1,9 @@
 -- Countdown Game -  Solution
 
+-- Declaring a new data type: the data type for the four arithmetic operations 
 data Op = Add | Sub | Mul | Div
 
+-- Defining utility functions on the Operator: how to Show an operator (Add showed as '+')
 instance Show Op where
     show Add = "+"
     show Sub = "-"
@@ -14,25 +16,30 @@ valid Sub x y = x > y
 valid Mul x y = x /= 1 && y /= 1 && x <= y
 valid Div x y = y /= 1 && x `mod`y == 0
 
+-- Application function for Operators: (operator,int,int):Input -> int:Output
 apply :: Op -> Int -> Int -> Int
 apply Add x y = x + y
 apply Sub x y = x - y
 apply Mul x y = x * y
 apply Div x y = x `div` y
 
+-- Data type to represente expressions. It's a recursive data type: Expr Expr
 data Expr = Val Int | App Op Expr Expr
 
+-- How to print a expression 
 instance Show Expr where
     show (Val n) = show n
     show (App o l r) = brak l ++ show o ++ brak r
         where
             brak (Val n) = show n
             brak e = "(" ++ show e ++ ")"
-            
+
+-- Utility function on expressions: Expr:Input -> all integer values:Output. Recursive function.
 values :: Expr -> [Int]
 values (Val n) = [n]
 values (App _ l r) = values l ++ values r
 
+-- Utility function to evalute an expression 
 eval :: Expr -> [Int]
 eval (Val n) = [n|n>0]
 eval (App o l r) = [apply o x y | x<-eval l, y<-eval r, valid o x y]
@@ -95,5 +102,3 @@ solutions' ns n = [e|ns' <- choices ns, (e, m) <- results ns', m == n]
 
 main :: IO ()
 main = print (solutions' [1, 3, 7, 10, 25, 50] 765)
-
--- λ> main
